@@ -99,7 +99,7 @@ RegisterNetEvent('gaia_chat:client:addMessage', function(data)
     SendNUIMessage({
         action = 'addMessage',
         data = {
-            id = nil .. tostring(math.random(1000, 9999)),
+            id = tostring(GetGameTimer()) .. tostring(math.random(1000, 9999)),
             type = data.type or 'system',
             content = data.content,
             author = data.author,
@@ -135,7 +135,7 @@ RegisterNetEvent('gaia_chat:client:receiveMessage', function(data)
     SendNUIMessage({
         action = 'addMessage',
         data = {
-            id = nil .. tostring(data.authorId),
+            id = tostring(GetGameTimer()) .. tostring(data.authorId),
             type = msgType,
             author = msgType == 'player' and (isLocal and '__self__' or data.author) or nil,
             content = data.content,
