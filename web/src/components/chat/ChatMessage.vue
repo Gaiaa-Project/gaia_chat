@@ -10,8 +10,8 @@ defineProps<{
 const { locale } = useI18n()
 const store = useChatStore()
 
-const formatTime = (date: Date | string): string => {
-  const d = date instanceof Date ? date : new Date(date)
+const formatTime = (date: Date | string | null): string => {
+  const d = date instanceof Date ? date : date ? new Date(date) : new Date()
   return d.toLocaleTimeString(locale.value, { hour: '2-digit', minute: '2-digit' })
 }
 
