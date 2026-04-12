@@ -72,4 +72,12 @@ export const initNuiListeners = () => {
   on('setCommandHistory', (data) => {
     store.setCommandHistory(data as string[])
   })
+
+  on('setStaffMode', (data) => {
+    store.isStaffMode = (data as { enabled: boolean }).enabled
+  })
+
+  on('addStaffMessage', (data) => {
+    store.addStaffMessage(data as ChatMessage)
+  })
 }

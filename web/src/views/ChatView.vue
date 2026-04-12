@@ -95,7 +95,11 @@ const handleSend = (content: string) => {
 
 const handleEscape = (e: KeyboardEvent) => {
   if (e.key === 'Escape' && store.isVisible) {
-    sendNuiCallback('closeChat')
+    if (store.isStaffMode) {
+      sendNuiCallback('exitStaffMode')
+    } else {
+      sendNuiCallback('closeChat')
+    }
   }
 }
 
@@ -114,9 +118,10 @@ onUnmounted(() => {
     class="fixed top-4 left-1/2 -translate-x-1/2 z-40 w-[620px] flex flex-col"
   >
     <div
-      class="h-[340px] flex flex-col bg-[rgba(0,10,8,0.85)] border-2 border-emerald-500/30 rounded-2xl shadow-[0_16px_48px_rgba(0,0,0,0.5)] overflow-hidden"
+      class="h-[340px] flex flex-col bg-[rgba(0,10,8,0.85)] border-2 rounded-2xl shadow-[0_16px_48px_rgba(0,0,0,0.5)] overflow-hidden transition-colors duration-300"
+      :class="store.isStaffMode ? 'border-red-500/50' : 'border-emerald-500/30'"
     >
-      <ChatMessages :messages="store.messages" />
+      <ChatMessages :messages="store.activeMessages" />
       <ChatInput ref="chatInput" :commands="commands" @send="handleSend" />
     </div>
 

@@ -212,7 +212,11 @@ RegisterNUICallback('chatMessage', function(data, cb)
             SendNUIMessage({ action = 'hide', data = {} })
             ExecuteCommand(message:sub(#ChatConfig.commandPrefix + 1))
         else
-            TriggerServerEvent('gaia_chat:server:sendMessage', message)
+            if IsStaffMode and IsStaffMode() then
+                TriggerServerEvent('gaia_chat:server:staffMessage', message)
+            else
+                TriggerServerEvent('gaia_chat:server:sendMessage', message)
+            end
         end
     end
 

@@ -12,6 +12,8 @@ export const useChatStore = defineStore('chat', () => {
   const commands = ref<RegisteredCommand[]>([])
   const isVisible = ref(false)
   const isFocused = ref(false)
+  const isStaffMode = ref(false)
+  const staffMessages = ref<ChatMessage[]>([])
   const passiveEntries = ref<PassiveEntry[]>([])
   const commandPrefix = ref('/')
   const maxMessages = ref(200)
@@ -59,6 +61,8 @@ export const useChatStore = defineStore('chat', () => {
   const passiveDuration = ref(10000)
   const passiveMode = ref<'dynamic' | 'hidden'>('dynamic')
 
+  const activeMessages = computed(() => (isStaffMode.value ? staffMessages.value : messages.value))
+
   const isPassiveVisible = computed(
     () => passiveMode.value === 'dynamic' && passiveEntries.value.length > 0,
   )
@@ -85,6 +89,13 @@ export const useChatStore = defineStore('chat', () => {
 
       passiveEntries.value.push({ message, timer })
     }
+  }
+
+  const addStaffMessage = (message: ChatMessage) => {
+    if (staffMessages.value.length >= maxMessages.value) {
+      staffMessages.value.shift()
+    }
+    staffMessages.value.push(message)
   }
 
   const clearMessages = () => {
@@ -175,6 +186,9 @@ export const useChatStore = defineStore('chat', () => {
     commands,
     isVisible,
     isFocused,
+    isStaffMode,
+    activeMessages,
+    addStaffMessage,
     isPassiveVisible,
     passiveMessages,
     commandPrefix,

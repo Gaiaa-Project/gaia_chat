@@ -11,14 +11,17 @@ lua54 'yes'
 
 shared_scripts {
     'config/*.lua',
+    'shared/modules/framework.lua',
 }
 
 server_scripts {
     'server/main.lua',
+    'server/modules/staff_chat.lua',
 }
 
 client_scripts {
     'client/main.lua',
+    'client/modules/staff_chat.lua',
 }
 
 ui_page 'web/dist/index.html'
