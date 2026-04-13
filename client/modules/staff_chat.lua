@@ -9,9 +9,48 @@ RegisterCommand('staffchat', function()
     TriggerServerEvent('gaia_chat:server:toggleStaffChat')
 end, false)
 
+RegisterCommand('teststaff', function()
+    TriggerEvent('gaia_chat:client:setStaffMode', true)
+
+    TriggerEvent('gaia_chat:client:addStaffMessage', {
+        type = 'system',
+        icon = 'mdi-shield-check',
+        content = 'Staff chat enabled — All messages will be sent to staff members only. Press ESC to exit.',
+    })
+
+    SetTimeout(1000, function()
+        TriggerEvent('gaia_chat:client:staffMessage', {
+            author = 'John Admin',
+            authorId = 999,
+            content = 'Hey team, anyone online?',
+            role = 'Administrator',
+        })
+    end)
+
+    SetTimeout(2500, function()
+        TriggerEvent('gaia_chat:client:staffMessage', {
+            author = 'Sarah Mod',
+            authorId = 998,
+            content = 'Yes, just handled a report. All good now.',
+            role = 'Moderator',
+        })
+    end)
+
+    SetTimeout(4000, function()
+        TriggerEvent('gaia_chat:client:staffMessage', {
+            author = '__self__',
+            authorId = GetPlayerServerId(PlayerId()),
+            content = 'Nice, thanks for the update!',
+            role = 'Owner',
+        })
+    end)
+end, false)
+
 SetTimeout(1500, function()
     TriggerEvent('gaia_chat:client:addCommand', 'staffchat', 'Toggle the staff chat channel')
+    TriggerEvent('gaia_chat:client:addCommand', 'teststaff', 'Test staff chat with fake messages')
     TriggerEvent('chat:removeSuggestion', '/staffchat')
+    TriggerEvent('chat:removeSuggestion', '/teststaff')
 end)
 
 RegisterNetEvent('gaia_chat:client:setStaffMode', function(enabled)
