@@ -20,6 +20,12 @@ export const useChatStore = defineStore('chat', () => {
   const maxMessageLength = ref(256)
   const messageCooldown = ref(1000)
   const authorColor = ref('#34d399')
+  const backgroundColor = ref('rgba(0,10,8,0.85)')
+  const borderColor = ref('#34d39950')
+  const staffBorderColor = ref('#f43f5e80')
+  const staffColor = ref('#f43f5e')
+  const emptyTextColor = ref('#ffffff')
+  const textColor = ref('#d4d4d8')
 
   const getAuthorColor = (): string => {
     if (authorColor.value === 'random') {
@@ -27,36 +33,6 @@ export const useChatStore = defineStore('chat', () => {
       return `hsl(${hue}, 70%, 65%)`
     }
     return authorColor.value
-  }
-  const commandHistoryList = ref<string[]>([])
-  const historyIndex = ref(-1)
-
-  const setCommandHistory = (history: string[]) => {
-    commandHistoryList.value = history
-    historyIndex.value = -1
-  }
-
-  const navigateHistory = (direction: 'up' | 'down'): string | null => {
-    if (commandHistoryList.value.length === 0) return null
-
-    if (direction === 'up') {
-      if (historyIndex.value < commandHistoryList.value.length - 1) {
-        historyIndex.value++
-      }
-    } else {
-      if (historyIndex.value > -1) {
-        historyIndex.value--
-      }
-    }
-
-    if (historyIndex.value === -1) return ''
-    return (
-      commandHistoryList.value[commandHistoryList.value.length - 1 - historyIndex.value] ?? null
-    )
-  }
-
-  const resetHistoryIndex = () => {
-    historyIndex.value = -1
   }
   const passiveDuration = ref(10000)
   const passiveMode = ref<'dynamic' | 'hidden'>('dynamic')
@@ -171,6 +147,12 @@ export const useChatStore = defineStore('chat', () => {
     passiveDuration?: number
     passiveMode?: 'dynamic' | 'hidden'
     authorColor?: string
+    backgroundColor?: string
+    borderColor?: string
+    staffBorderColor?: string
+    staffColor?: string
+    emptyTextColor?: string
+    textColor?: string
   }) => {
     commandPrefix.value = config.commandPrefix
     if (config.maxMessages) maxMessages.value = config.maxMessages
@@ -179,6 +161,12 @@ export const useChatStore = defineStore('chat', () => {
     if (config.passiveDuration) passiveDuration.value = config.passiveDuration
     if (config.passiveMode) passiveMode.value = config.passiveMode
     if (config.authorColor) authorColor.value = config.authorColor
+    if (config.backgroundColor) backgroundColor.value = config.backgroundColor
+    if (config.borderColor) borderColor.value = config.borderColor
+    if (config.staffBorderColor) staffBorderColor.value = config.staffBorderColor
+    if (config.staffColor) staffColor.value = config.staffColor
+    if (config.emptyTextColor) emptyTextColor.value = config.emptyTextColor
+    if (config.textColor) textColor.value = config.textColor
   }
 
   return {
@@ -195,6 +183,12 @@ export const useChatStore = defineStore('chat', () => {
     maxMessageLength,
     messageCooldown,
     getAuthorColor,
+    backgroundColor,
+    borderColor,
+    staffBorderColor,
+    staffColor,
+    emptyTextColor,
+    textColor,
     addMessage,
     clearMessages,
     addCommand,
@@ -204,9 +198,6 @@ export const useChatStore = defineStore('chat', () => {
     toastText,
     isToastVisible,
     showToast,
-    setCommandHistory,
-    navigateHistory,
-    resetHistoryIndex,
     show,
     hide,
     focus,

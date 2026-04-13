@@ -19,16 +19,19 @@ const scrollToBottom = async () => {
 }
 
 watch(() => props.messages.length, scrollToBottom)
-watch(() => store.isVisible, (visible) => {
-  if (visible) scrollToBottom()
-})
+watch(
+  () => store.isVisible,
+  (visible) => {
+    if (visible) scrollToBottom()
+  },
+)
 onMounted(scrollToBottom)
 </script>
 
 <template>
   <div ref="container" class="flex-1 overflow-y-auto overflow-x-hidden py-2 scrollbar-thin">
     <div v-if="messages.length === 0" class="flex items-center justify-center h-full">
-      <span class="text-white text-xs">{{ $t('chat.noMessages') }}</span>
+      <span class="text-xs" :style="{ color: store.emptyTextColor }">{{ $t('chat.noMessages') }}</span>
     </div>
 
     <template v-for="(message, index) in messages" :key="index">

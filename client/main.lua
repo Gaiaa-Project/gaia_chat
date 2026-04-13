@@ -1,27 +1,7 @@
 local isChatOpen = false
 local savedPassiveMode <const> = GetResourceKvpString('gaia_chat:passiveMode')
-local savedHistory <const> = GetResourceKvpString('gaia_chat:commandHistory')
-local commandHistory = savedHistory and json.decode(savedHistory) or {}
 local currentPassiveMode = savedPassiveMode or PassiveConfig.mode
 local lastToggleTime = 0
-
---- Save a command to the KVP history.
----@param command string The full command string including prefix.
-local function saveCommandToHistory(command)
-    for i = #commandHistory, 1, -1 do
-        if commandHistory[i] == command then
-            table.remove(commandHistory, i)
-        end
-    end
-
-    commandHistory[#commandHistory + 1] = command
-
-    if #commandHistory > HistoryConfig.maxCommands then
-        table.remove(commandHistory, 1)
-    end
-
-    SetResourceKvp('gaia_chat:commandHistory', json.encode(commandHistory))
-end
 
 --- Send the full config to the NUI.
 local function sendConfig()
@@ -34,17 +14,21 @@ local function sendConfig()
             messageCooldown = ChatConfig.messageCooldown,
             passiveDuration = PassiveConfig.duration,
             passiveMode = currentPassiveMode,
-            authorColor = ChatConfig.authorColor,
+            authorColor = StyleConfig.authorColor,
+            backgroundColor = StyleConfig.backgroundColor,
+            borderColor = StyleConfig.borderColor,
+            staffBorderColor = StyleConfig.staffBorderColor,
+            staffColor = StyleConfig.staffColor,
+            emptyTextColor = StyleConfig.emptyTextColor,
+            textColor = StyleConfig.textColor,
         },
     })
 end
 
---- Send the command history to the NUI.
-local function sendHistory()
-    SendNUIMessage({
-        action = 'setCommandHistory',
-        data = commandHistory,
-    })
+--- Generate a unique message ID.
+---@return string id The unique ID.
+function generateMessageId()
+    return tostring(GetGameTimer()) .. tostring(math.random(1000, 9999))
 end
 
 --- Get the local player server ID.
@@ -99,7 +83,7 @@ RegisterNetEvent('gaia_chat:client:addMessage', function(data)
     SendNUIMessage({
         action = 'addMessage',
         data = {
-            id = tostring(GetGameTimer()) .. tostring(math.random(1000, 9999)),
+            id = generateMessageId(),
             type = data.type or 'system',
             content = data.content,
             author = data.author,
@@ -135,7 +119,7 @@ RegisterNetEvent('gaia_chat:client:receiveMessage', function(data)
     SendNUIMessage({
         action = 'addMessage',
         data = {
-            id = tostring(GetGameTimer()) .. tostring(data.authorId),
+            id = generateMessageId(),
             type = msgType,
             author = msgType == 'player' and (isLocal and '__self__' or data.author) or nil,
             content = data.content,
@@ -156,7 +140,6 @@ RegisterCommand('+gaia_chat_open', function()
     if isChatOpen then return end
     isChatOpen = true
 
-    sendHistory()
     SendNUIMessage({ action = 'show', data = {} })
     SendNUIMessage({ action = 'focus', data = {} })
     SetNuiFocus(true, false)
@@ -185,7 +168,7 @@ RegisterCommand('+gaia_chat_toggle_passive', function()
     SendNUIMessage({
         action = 'showToast',
         data = {
-            text = currentPassiveMode == 'dynamic' and 'Chat: Dynamic' or 'Chat: Hidden',
+            text = T(currentPassiveMode == 'dynamic' and 'passive_mode_dynamic' or 'passive_mode_hidden'),
         },
     })
 end, false)
@@ -206,7 +189,6 @@ RegisterNUICallback('chatMessage', function(data, cb)
 
     if message and #message > 0 then
         if message:sub(1, #ChatConfig.commandPrefix) == ChatConfig.commandPrefix then
-            saveCommandToHistory(message)
             isChatOpen = false
             SetNuiFocus(false, false)
             SendNUIMessage({ action = 'hide', data = {} })

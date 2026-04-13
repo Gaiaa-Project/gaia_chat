@@ -44,7 +44,7 @@ RegisterNetEvent('gaia_chat:server:toggleStaffChat', function()
     TriggerClientEvent('gaia_chat:client:addStaffMessage', src, {
         type = 'system',
         icon = 'mdi-shield-check',
-        content = 'Staff chat enabled — All messages will be sent to staff members only. Press ESC to exit.',
+        content = T('staff_chat_enabled'),
     })
 
     TriggerClientEvent('gaia_chat:client:setStaffMode', src, true)
@@ -76,9 +76,9 @@ RegisterNetEvent('gaia_chat:server:staffMessage', function(content)
     end
 
     broadcastToStaff({
-        author = playerName,
+        author = sanitize(playerName),
         authorId = src,
-        content = trimmed,
+        content = sanitize(trimmed),
         role = roleName,
     })
 end)

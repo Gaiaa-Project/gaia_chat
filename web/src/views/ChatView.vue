@@ -4,6 +4,7 @@ import { useChatStore } from '@/stores/chat'
 import { sendNuiCallback } from '@/utils/nui'
 import { mockCommands } from '@/mock/commands'
 import { mockPrefix } from '@/mock/prefix'
+import { mockMessages } from '@/mock/messages'
 import ChatMessages from '@/components/chat/ChatMessages.vue'
 import ChatInput from '@/components/chat/ChatInput.vue'
 import ChatSuggestions from '@/components/chat/ChatSuggestions.vue'
@@ -25,50 +26,7 @@ if (import.meta.env.DEV) {
 }
 
 if (props.forceVisible) {
-  store.addMessage({
-    id: '1',
-    type: 'system',
-    content: 'Bienvenue sur le serveur !',
-    timestamp: new Date(),
-  })
-  store.addMessage({
-    id: '2',
-    type: 'player',
-    author: 'John Smith',
-    authorColor: '#34d399',
-    content: 'Salut tout le monde, comment ça va ?',
-    timestamp: new Date(),
-  })
-  store.addMessage({
-    id: '3',
-    type: 'player',
-    author: 'Jane Doe',
-    authorColor: '#60a5fa',
-    content: 'Hey ! Bien et toi ?',
-    timestamp: new Date(),
-  })
-  store.addMessage({
-    id: '4',
-    type: 'player',
-    author: 'Mike Johnson',
-    authorColor: '#f472b6',
-    content: "Quelqu'un pour aller à la mine ?",
-    timestamp: new Date(),
-  })
-  store.addMessage({
-    id: '5',
-    type: 'warning',
-    content: 'Le serveur redémarrera dans 30 minutes.',
-    timestamp: new Date(),
-  })
-  store.addMessage({
-    id: '6',
-    type: 'player',
-    author: 'John Smith',
-    authorColor: '#34d399',
-    content: 'Ok on se dépêche alors !',
-    timestamp: new Date(),
-  })
+  mockMessages.forEach((msg) => store.addMessage(msg))
 }
 
 const commands = computed(() => {
@@ -118,8 +76,11 @@ onUnmounted(() => {
     class="fixed top-4 left-1/2 -translate-x-1/2 z-40 w-[620px] flex flex-col"
   >
     <div
-      class="h-[340px] flex flex-col bg-[rgba(0,10,8,0.85)] border-2 rounded-2xl shadow-[0_16px_48px_rgba(0,0,0,0.5)] overflow-hidden transition-colors duration-300"
-      :class="store.isStaffMode ? 'border-red-500/50' : 'border-emerald-500/30'"
+      class="h-[340px] flex flex-col border-2 rounded-2xl shadow-[0_16px_48px_rgba(0,0,0,0.5)] overflow-hidden transition-colors duration-300"
+      :style="{
+        backgroundColor: store.backgroundColor,
+        borderColor: store.isStaffMode ? store.staffBorderColor : store.borderColor,
+      }"
     >
       <ChatMessages :messages="store.activeMessages" />
       <ChatInput ref="chatInput" :commands="commands" @send="handleSend" />

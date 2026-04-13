@@ -69,7 +69,7 @@ const getDescription = (cmd: RegisteredCommand) => {
     class="max-h-[140px] overflow-y-auto rounded-xl bg-zinc-950/90 border-2 border-emerald-500/30 scrollbar-thin"
   >
     <div v-if="filtered.length === 0" class="flex items-center justify-center py-4">
-      <span class="text-white text-xs">No commands available yet</span>
+      <span class="text-xs" :style="{ color: store.emptyTextColor }">{{ $t('chat.noCommands') }}</span>
     </div>
 
     <template v-else v-for="(cmd, index) in filtered" :key="cmd.name">

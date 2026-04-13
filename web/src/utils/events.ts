@@ -69,10 +69,6 @@ export const initNuiListeners = () => {
     store.showToast((data as { text: string }).text)
   })
 
-  on('setCommandHistory', (data) => {
-    store.setCommandHistory(data as string[])
-  })
-
   on('setStaffMode', (data) => {
     store.isStaffMode = (data as { enabled: boolean }).enabled
   })

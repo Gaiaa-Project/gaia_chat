@@ -11,6 +11,7 @@ lua54 'yes'
 
 shared_scripts {
     'config/*.lua',
+    'shared/modules/locale.lua',
     'shared/modules/framework.lua',
 }
 
@@ -27,6 +28,7 @@ client_scripts {
 ui_page 'web/dist/index.html'
 
 files {
+    'translations/*.lua',
     'web/dist/index.html',
     'web/dist/**/*.js',
     'web/dist/**/*.css',

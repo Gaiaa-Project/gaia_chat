@@ -91,23 +91,8 @@ const handleKeydown = (e: KeyboardEvent) => {
     }
   }
 
-  if (e.key === 'ArrowUp') {
-    e.preventDefault()
-    const cmd = store.navigateHistory('up')
-    if (cmd !== null) input.value = cmd
-    return
-  }
-
-  if (e.key === 'ArrowDown') {
-    e.preventDefault()
-    const cmd = store.navigateHistory('down')
-    if (cmd !== null) input.value = cmd
-    return
-  }
-
   if (e.key === 'Enter' && !e.shiftKey) {
     e.preventDefault()
-    store.resetHistoryIndex()
     handleSend()
   }
 }

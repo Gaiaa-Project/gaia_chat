@@ -28,7 +28,10 @@ const typeStyles: Record<string, string> = {
   <div class="flex items-center justify-between pl-5 pr-5 py-1.5">
     <div v-if="message.type === 'player'" class="flex flex-col min-w-0">
       <div class="flex items-center gap-2">
-        <span class="text-xs font-semibold" :style="{ color: message.authorColor ?? store.getAuthorColor() }">
+        <span
+          class="text-xs font-semibold"
+          :style="{ color: message.authorColor ?? store.getAuthorColor() }"
+        >
           {{ message.author === '__self__' ? $t('chat.you') : message.author }}
         </span>
         <span
@@ -39,7 +42,7 @@ const typeStyles: Record<string, string> = {
           {{ message.prefix }}
         </span>
       </div>
-      <span class="text-sm text-zinc-300 leading-relaxed break-words">
+      <span class="text-sm leading-relaxed break-words" :style="{ color: store.textColor }">
         {{ message.content }}
       </span>
     </div>

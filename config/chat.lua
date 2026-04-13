@@ -10,19 +10,6 @@ ChatConfig = {
     --- Default: '/'
     commandPrefix = '/',
 
-    --- Author name color
-    ---
-    --- The default color used for player names in chat messages.
-    --- Only hexadecimal color codes are supported.
-    ---
-    --- '#34d399': A specific hex color for all player names.
-    --- 'random': Each message gets a randomly generated color.
-    ---
-    --- This can be overridden per message via hooks or addMessage options.
-    ---
-    --- Default: '#34d399'
-    authorColor = '#34d399',
-
     --- Max messages
     ---
     --- The maximum number of messages kept in the chat history.

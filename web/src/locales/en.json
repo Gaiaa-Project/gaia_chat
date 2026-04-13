@@ -3,6 +3,7 @@
     "placeholder": "Type a message...",
     "send": "Send",
     "noMessages": "No messages",
+    "noCommands": "No commands available yet",
     "you": "You"
   }
 }

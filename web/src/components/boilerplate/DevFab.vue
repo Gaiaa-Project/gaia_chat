@@ -60,7 +60,7 @@ const deps = [
             class="text-xs font-medium"
             :class="currentView !== 'none' ? 'text-emerald-400' : 'text-red-400/70'"
           >
-            {{ currentView !== 'none' ? currentView : 'Aucune' }}
+            {{ currentView !== 'none' ? currentView : 'None' }}
           </span>
         </div>
       </div>

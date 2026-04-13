@@ -11,7 +11,7 @@ local PRIORITY_ORDER <const> = {
 --- Sanitize a string to prevent HTML/XSS injection.
 ---@param input string The raw string.
 ---@return string sanitized The escaped string.
-local function sanitize(input)
+function sanitize(input)
     return input
         :gsub('&', '&amp;')
         :gsub('<', '&lt;')
@@ -131,7 +131,7 @@ RegisterNetEvent('gaia_chat:server:sendMessage', function(content)
 
         if lastSent and now - lastSent < ChatConfig.messageCooldown then
             local remaining <const> = math.ceil((ChatConfig.messageCooldown - (now - lastSent)) / 1000)
-            sendWarning(src, ('You are sending messages too fast. Please wait %ds.'):format(remaining))
+            sendWarning(src, T('message_too_fast', remaining))
             return
         end
 
@@ -142,7 +142,7 @@ RegisterNetEvent('gaia_chat:server:sendMessage', function(content)
     if not playerName then return end
 
     if #trimmed > ChatConfig.maxMessageLength then
-        sendWarning(src, ('Message too long (max %d characters)'):format(ChatConfig.maxMessageLength))
+        sendWarning(src, T('message_too_long', ChatConfig.maxMessageLength))
         return
     end
 

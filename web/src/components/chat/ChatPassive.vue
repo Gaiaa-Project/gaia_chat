@@ -9,8 +9,8 @@ const store = useChatStore()
   <Transition name="passive-fade">
     <div v-if="store.isPassiveVisible" class="fixed top-4 left-1/2 -translate-x-1/2 z-30 w-[620px]">
       <div
-        class="flex flex-col bg-[rgba(0,10,8,0.85)] border border-emerald-500/20 rounded-2xl overflow-hidden transition-all duration-300"
-        :style="{ maxHeight: '340px' }"
+        class="flex flex-col border rounded-2xl overflow-hidden transition-all duration-300"
+        :style="{ maxHeight: '340px', backgroundColor: store.backgroundColor, borderColor: store.borderColor }"
       >
         <div class="overflow-y-auto py-2 scrollbar-thin">
           <TransitionGroup name="message-fade">
