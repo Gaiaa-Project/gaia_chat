@@ -10,7 +10,7 @@ if IsDuplicityVersion() then
 else
     AddEventHandler('onClientResourceStart', function(resourceName)
         if resourceName == 'gaia_core' then
-            SetTimeout(500, function()
+            SetTimeout(1000, function()
                 Gaia = exports['gaia_core']:exportedObject()
             end)
         end

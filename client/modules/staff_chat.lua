@@ -1,23 +1,17 @@
 local staffMode = false
 
---- Check if the staff chat mode is active.
----@return boolean active Whether staff mode is active.
 function IsStaffMode()
     return staffMode
 end
 
-AddEventHandler('onClientResourceStart', function(resourceName)
-    if resourceName ~= 'gaia_core' then return end
+RegisterCommand('staffchat', function()
+    if staffMode then return end
+    TriggerServerEvent('gaia_chat:server:toggleStaffChat')
+end, false)
 
-    local Gaia <const> = GetGaia()
-    if not Gaia then return end
-
-    Gaia.command.register('staffchat', function()
-        if staffMode then return end
-        TriggerServerEvent('gaia_chat:server:toggleStaffChat')
-    end, {
-        description = 'Toggle the staff chat channel',
-    })
+SetTimeout(1500, function()
+    TriggerEvent('gaia_chat:client:addCommand', 'staffchat', 'Toggle the staff chat channel')
+    TriggerEvent('chat:removeSuggestion', '/staffchat')
 end)
 
 RegisterNetEvent('gaia_chat:client:setStaffMode', function(enabled)
