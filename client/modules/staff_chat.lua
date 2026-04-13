@@ -9,48 +9,73 @@ RegisterCommand('staffchat', function()
     TriggerServerEvent('gaia_chat:server:toggleStaffChat')
 end, false)
 
-RegisterCommand('teststaff', function()
-    TriggerEvent('gaia_chat:client:setStaffMode', true)
+-- === TESTSTAFF WITH GAIA ===
+AddEventHandler('onClientResourceStart', function(resourceName)
+    if resourceName ~= 'gaia_core' then return end
 
-    TriggerEvent('gaia_chat:client:addStaffMessage', {
-        type = 'system',
-        icon = 'mdi-shield-check',
-        content = 'Staff chat enabled — All messages will be sent to staff members only. Press ESC to exit.',
-    })
+    print('[gaia_chat] DEBUG: onClientResourceStart fired for gaia_core')
 
-    SetTimeout(1000, function()
-        TriggerEvent('gaia_chat:client:staffMessage', {
-            author = 'John Admin',
-            authorId = 999,
-            content = 'Hey team, anyone online?',
-            role = 'Administrator',
+    SetTimeout(2000, function()
+        local Gaia <const> = GetGaia()
+
+        if not Gaia then
+            print('[gaia_chat] DEBUG: GetGaia() returned nil after 2000ms')
+            return
+        end
+
+        print('[gaia_chat] DEBUG: GetGaia() OK')
+        print('[gaia_chat] DEBUG: Gaia.command exists: ' .. tostring(Gaia.command ~= nil))
+        print('[gaia_chat] DEBUG: Gaia.command.register exists: ' .. tostring(Gaia.command and Gaia.command.register ~= nil))
+
+        Gaia.command.register('teststaff', function()
+            print('[gaia_chat] DEBUG: teststaff command executed')
+
+            TriggerEvent('gaia_chat:client:setStaffMode', true)
+
+            TriggerEvent('gaia_chat:client:addStaffMessage', {
+                type = 'system',
+                icon = 'mdi-shield-check',
+                content = 'Staff chat enabled — All messages will be sent to staff members only. Press ESC to exit.',
+            })
+
+            SetTimeout(1000, function()
+                TriggerEvent('gaia_chat:client:staffMessage', {
+                    author = 'John Admin',
+                    authorId = 999,
+                    content = 'Hey team, anyone online?',
+                    role = 'Administrator',
+                })
+            end)
+
+            SetTimeout(2500, function()
+                TriggerEvent('gaia_chat:client:staffMessage', {
+                    author = 'Sarah Mod',
+                    authorId = 998,
+                    content = 'Yes, just handled a report. All good now.',
+                    role = 'Moderator',
+                })
+            end)
+
+            SetTimeout(4000, function()
+                TriggerEvent('gaia_chat:client:staffMessage', {
+                    author = '__self__',
+                    authorId = GetPlayerServerId(PlayerId()),
+                    content = 'Nice, thanks for the update!',
+                    role = 'Owner',
+                })
+            end)
+        end, {
+            description = 'Test staff chat with fake messages',
         })
-    end)
 
-    SetTimeout(2500, function()
-        TriggerEvent('gaia_chat:client:staffMessage', {
-            author = 'Sarah Mod',
-            authorId = 998,
-            content = 'Yes, just handled a report. All good now.',
-            role = 'Moderator',
-        })
+        print('[gaia_chat] DEBUG: teststaff command registered via Gaia')
     end)
-
-    SetTimeout(4000, function()
-        TriggerEvent('gaia_chat:client:staffMessage', {
-            author = '__self__',
-            authorId = GetPlayerServerId(PlayerId()),
-            content = 'Nice, thanks for the update!',
-            role = 'Owner',
-        })
-    end)
-end, false)
+end)
+-- === END TESTSTAFF WITH GAIA ===
 
 SetTimeout(1500, function()
     TriggerEvent('gaia_chat:client:addCommand', 'staffchat', 'Toggle the staff chat channel')
-    TriggerEvent('gaia_chat:client:addCommand', 'teststaff', 'Test staff chat with fake messages')
     TriggerEvent('chat:removeSuggestion', '/staffchat')
-    TriggerEvent('chat:removeSuggestion', '/teststaff')
 end)
 
 RegisterNetEvent('gaia_chat:client:setStaffMode', function(enabled)
