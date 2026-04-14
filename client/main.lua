@@ -21,6 +21,7 @@ local function sendConfig()
             staffColor = StyleConfig.staffColor,
             emptyTextColor = StyleConfig.emptyTextColor,
             textColor = StyleConfig.textColor,
+            chatPosition = StyleConfig.chatPosition,
         },
     })
 end

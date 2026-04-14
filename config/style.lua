@@ -57,4 +57,15 @@ StyleConfig = {
     ---
     --- Default: '#d4d4d8'
     textColor = '#d4d4d8',
+
+    --- Chat position
+    ---
+    --- The position of the chat window on screen.
+    ---
+    --- Available: 'top-left', 'top-center', 'top-right',
+    ---            'center-left', 'center', 'center-right',
+    ---            'bottom-left', 'bottom-center', 'bottom-right'
+    ---
+    --- Default: 'top-left'
+    chatPosition = 'top-left',
 }

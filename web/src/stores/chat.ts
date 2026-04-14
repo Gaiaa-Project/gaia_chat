@@ -26,6 +26,22 @@ export const useChatStore = defineStore('chat', () => {
   const staffColor = ref('#f43f5e')
   const emptyTextColor = ref('#ffffff')
   const textColor = ref('#d4d4d8')
+  const chatPosition = ref('top-left')
+
+  const positionClasses = computed(() => {
+    const map: Record<string, string> = {
+      'top-left': 'top-4 left-4',
+      'top-center': 'top-4 left-1/2 -translate-x-1/2',
+      'top-right': 'top-4 right-4',
+      'center-left': 'top-1/2 left-4 -translate-y-1/2',
+      'center': 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+      'center-right': 'top-1/2 right-4 -translate-y-1/2',
+      'bottom-left': 'bottom-4 left-4',
+      'bottom-center': 'bottom-4 left-1/2 -translate-x-1/2',
+      'bottom-right': 'bottom-4 right-4',
+    }
+    return map[chatPosition.value] || map['top-left']
+  })
 
   const getAuthorColor = (): string => {
     if (authorColor.value === 'random') {
@@ -153,6 +169,7 @@ export const useChatStore = defineStore('chat', () => {
     staffColor?: string
     emptyTextColor?: string
     textColor?: string
+    chatPosition?: string
   }) => {
     commandPrefix.value = config.commandPrefix
     if (config.maxMessages) maxMessages.value = config.maxMessages
@@ -167,6 +184,7 @@ export const useChatStore = defineStore('chat', () => {
     if (config.staffColor) staffColor.value = config.staffColor
     if (config.emptyTextColor) emptyTextColor.value = config.emptyTextColor
     if (config.textColor) textColor.value = config.textColor
+    if (config.chatPosition) chatPosition.value = config.chatPosition
   }
 
   return {
@@ -189,6 +207,7 @@ export const useChatStore = defineStore('chat', () => {
     staffColor,
     emptyTextColor,
     textColor,
+    positionClasses,
     addMessage,
     clearMessages,
     addCommand,

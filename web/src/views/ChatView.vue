@@ -73,7 +73,8 @@ onUnmounted(() => {
 <template>
   <div
     v-if="store.isVisible || props.forceVisible"
-    class="fixed top-4 left-1/2 -translate-x-1/2 z-40 w-[620px] flex flex-col"
+    class="fixed z-40 w-[620px] flex flex-col"
+    :class="store.positionClasses"
   >
     <div
       class="h-[340px] flex flex-col border-2 rounded-2xl shadow-[0_16px_48px_rgba(0,0,0,0.5)] overflow-hidden transition-colors duration-300"
