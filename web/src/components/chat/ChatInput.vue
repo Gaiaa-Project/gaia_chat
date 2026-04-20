@@ -103,7 +103,8 @@ defineExpose({ showSuggestions, input, selectedIndex, handleSelect })
 <template>
   <div class="px-3 pb-3 pt-1">
     <div
-      class="flex items-center gap-4 bg-zinc-900/60 border border-zinc-800/60 rounded-xl px-4 py-2.5 transition-colors duration-200 focus-within:border-emerald-500/30"
+      class="flex items-center gap-4 bg-zinc-900/60 border rounded-xl px-4 py-2.5 transition-colors duration-300"
+      :style="{ borderColor: store.isStaffMode ? store.staffBorderColor : store.borderColor }"
     >
       <input
         ref="inputRef"
