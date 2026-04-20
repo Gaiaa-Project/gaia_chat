@@ -37,4 +37,13 @@ ChatConfig = {
     ---
     --- Default: 1000 (1 second)
     messageCooldown = 1000,
+
+    --- Allow plain chat messages
+    ---
+    --- When true, players can send regular chat messages (normal behavior).
+    --- When false, only commands (messages starting with commandPrefix) are allowed;
+    --- plain messages are rejected with a warning.
+    ---
+    --- Default: true
+    allowMessages = true,
 }

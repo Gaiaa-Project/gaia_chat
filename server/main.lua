@@ -125,6 +125,11 @@ RegisterNetEvent('gaia_chat:server:sendMessage', function(content)
     local trimmed <const> = content:match('^%s*(.-)%s*$')
     if not trimmed or #trimmed == 0 then return end
 
+    if not ChatConfig.allowMessages then
+        sendWarning(src, T('messages_disabled'))
+        return
+    end
+
     if ChatConfig.messageCooldown > 0 then
         local now <const> = GetGameTimer()
         local lastSent <const> = cooldowns[src]

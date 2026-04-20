@@ -12,6 +12,7 @@ local function sendConfig()
             maxMessages = ChatConfig.maxMessages,
             maxMessageLength = ChatConfig.maxMessageLength,
             messageCooldown = ChatConfig.messageCooldown,
+            allowMessages = ChatConfig.allowMessages,
             passiveDuration = PassiveConfig.duration,
             passiveMode = currentPassiveMode,
             authorColor = StyleConfig.authorColor,
@@ -194,6 +195,15 @@ RegisterNUICallback('chatMessage', function(data, cb)
             SetNuiFocus(false, false)
             SendNUIMessage({ action = 'hide', data = {} })
             ExecuteCommand(message:sub(#ChatConfig.commandPrefix + 1))
+        elseif not ChatConfig.allowMessages then
+            SendNUIMessage({
+                action = 'addMessage',
+                data = {
+                    id = generateMessageId(),
+                    type = 'warning',
+                    content = T('messages_disabled'),
+                },
+            })
         else
             if IsStaffMode and IsStaffMode() then
                 TriggerServerEvent('gaia_chat:server:staffMessage', message)

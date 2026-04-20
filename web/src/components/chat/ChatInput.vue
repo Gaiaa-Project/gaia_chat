@@ -2,6 +2,7 @@
 import { ref, computed, watch, nextTick } from 'vue'
 import type { RegisteredCommand } from '@/types/chat'
 import { useChatStore } from '@/stores/chat'
+import { sendNuiCallback } from '@/utils/nui'
 
 const props = defineProps<{
   commands: RegisteredCommand[]
@@ -93,6 +94,10 @@ const handleKeydown = (e: KeyboardEvent) => {
 
   if (e.key === 'Enter' && !e.shiftKey) {
     e.preventDefault()
+    if (!input.value.trim()) {
+      sendNuiCallback('closeChat')
+      return
+    }
     handleSend()
   }
 }
