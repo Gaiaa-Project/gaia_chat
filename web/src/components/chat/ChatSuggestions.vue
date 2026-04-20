@@ -66,7 +66,12 @@ const getDescription = (cmd: RegisteredCommand) => {
 
 <template>
   <div
-    class="max-h-[140px] overflow-y-auto rounded-xl bg-zinc-950/90 border-2 border-emerald-500/30 scrollbar-thin"
+    class="max-h-[140px] overflow-y-auto rounded-xl bg-zinc-950/90 border-2 scrollbar-thin"
+    :style="{
+      borderColor: `color-mix(in srgb, ${store.commandSystemColor} 30%, transparent)`,
+      '--cmd-color-15': `color-mix(in srgb, ${store.commandSystemColor} 15%, transparent)`,
+      '--cmd-color-30': `color-mix(in srgb, ${store.commandSystemColor} 30%, transparent)`,
+    }"
   >
     <div v-if="filtered.length === 0" class="flex items-center justify-center py-4">
       <span class="text-xs" :style="{ color: store.emptyTextColor }">{{ $t('chat.noCommands') }}</span>
@@ -75,16 +80,28 @@ const getDescription = (cmd: RegisteredCommand) => {
     <template v-else v-for="(cmd, index) in filtered" :key="cmd.name">
       <div
         v-if="index > 0"
-        class="mx-3 h-px bg-gradient-to-r from-transparent via-emerald-700/60 to-transparent"
+        class="mx-3 h-px"
+        :style="{
+          background: `linear-gradient(to right, transparent, color-mix(in srgb, ${store.commandSystemColor} 60%, transparent), transparent)`,
+        }"
       ></div>
       <div
         :data-suggestion-index="index"
         class="flex items-center justify-between pl-5 pr-5 py-2 cursor-pointer transition-colors duration-100"
-        :class="index === clampedIndex ? 'bg-emerald-500/10' : 'hover:bg-white/[0.03]'"
+        :class="index === clampedIndex ? '' : 'hover:bg-white/[0.03]'"
+        :style="
+          index === clampedIndex
+            ? { backgroundColor: `color-mix(in srgb, ${store.commandSystemColor} 10%, transparent)` }
+            : {}
+        "
         @click="emit('select', cmd)"
       >
         <div class="flex items-center gap-2">
-          <span class="text-emerald-500/60 text-xs font-mono">{{ prefix }}</span>
+          <span
+            class="text-xs font-mono"
+            :style="{ color: `color-mix(in srgb, ${store.commandSystemColor} 60%, transparent)` }"
+            >{{ prefix }}</span
+          >
           <span class="text-zinc-300 text-sm">{{ cmd.name }}</span>
           <template v-if="cmd.params?.length">
             <span
@@ -93,10 +110,15 @@ const getDescription = (cmd: RegisteredCommand) => {
               class="text-xs font-mono transition-colors duration-150"
               :class="
                 matchedCommand?.name === cmd.name && activeParamIndex === pIndex
-                  ? 'text-emerald-400'
+                  ? ''
                   : param.optional
                     ? 'text-zinc-600'
                     : 'text-zinc-500'
+              "
+              :style="
+                matchedCommand?.name === cmd.name && activeParamIndex === pIndex
+                  ? { color: store.commandSystemColor }
+                  : {}
               "
             >
               {{ param.optional ? `[${param.name}]` : `<${param.name}>` }}
@@ -121,11 +143,11 @@ const getDescription = (cmd: RegisteredCommand) => {
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background: rgba(52, 211, 153, 0.15);
+  background: var(--cmd-color-15);
   border-radius: 9999px;
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background: rgba(52, 211, 153, 0.3);
+  background: var(--cmd-color-30);
 }
 </style>

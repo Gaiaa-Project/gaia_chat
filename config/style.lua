@@ -58,6 +58,18 @@ StyleConfig = {
     --- Default: '#d4d4d8'
     textColor = '#d4d4d8',
 
+    --- Command system color
+    ---
+    --- The base color used across the entire command suggestion system:
+    --- the '/' prefix in suggestions, the suggestion container border,
+    --- the selected suggestion background, the active parameter highlight,
+    --- separators and the scrollbar.
+    ---
+    --- Only hexadecimal color codes are supported (without alpha, 6 digits).
+    ---
+    --- Default: '#10b981'
+    commandSystemColor = '#10b981',
+
     --- Chat position
     ---
     --- The position of the chat window on screen.

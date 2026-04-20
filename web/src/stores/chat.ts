@@ -26,6 +26,7 @@ export const useChatStore = defineStore('chat', () => {
   const staffColor = ref('#f43f5e')
   const emptyTextColor = ref('#ffffff')
   const textColor = ref('#d4d4d8')
+  const commandSystemColor = ref('#10b981')
   const chatPosition = ref('top-left')
 
   const positionClasses = computed(() => {
@@ -169,6 +170,7 @@ export const useChatStore = defineStore('chat', () => {
     staffColor?: string
     emptyTextColor?: string
     textColor?: string
+    commandSystemColor?: string
     chatPosition?: string
   }) => {
     commandPrefix.value = config.commandPrefix
@@ -184,6 +186,7 @@ export const useChatStore = defineStore('chat', () => {
     if (config.staffColor) staffColor.value = config.staffColor
     if (config.emptyTextColor) emptyTextColor.value = config.emptyTextColor
     if (config.textColor) textColor.value = config.textColor
+    if (config.commandSystemColor) commandSystemColor.value = config.commandSystemColor
     if (config.chatPosition) chatPosition.value = config.chatPosition
   }
 
@@ -207,6 +210,7 @@ export const useChatStore = defineStore('chat', () => {
     staffColor,
     emptyTextColor,
     textColor,
+    commandSystemColor,
     positionClasses,
     addMessage,
     clearMessages,
