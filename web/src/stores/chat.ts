@@ -26,7 +26,12 @@ export const useChatStore = defineStore('chat', () => {
   const staffColor = ref('#f43f5e')
   const emptyTextColor = ref('#ffffff')
   const textColor = ref('#d4d4d8')
-  const commandSystemColor = ref('#10b981')
+  const commandBorderColor = ref('#10b98150')
+  const commandSeparatorColor = ref('#04785799')
+  const commandSelectedBgColor = ref('#10b9811a')
+  const commandPrefixColor = ref('#10b98199')
+  const commandActiveParamColor = ref('#34d399')
+  const commandScrollbarColor = ref('#34d39926')
   const chatPosition = ref('top-left')
 
   const positionClasses = computed(() => {
@@ -170,7 +175,12 @@ export const useChatStore = defineStore('chat', () => {
     staffColor?: string
     emptyTextColor?: string
     textColor?: string
-    commandSystemColor?: string
+    commandBorderColor?: string
+    commandSeparatorColor?: string
+    commandSelectedBgColor?: string
+    commandPrefixColor?: string
+    commandActiveParamColor?: string
+    commandScrollbarColor?: string
     chatPosition?: string
   }) => {
     commandPrefix.value = config.commandPrefix
@@ -186,7 +196,12 @@ export const useChatStore = defineStore('chat', () => {
     if (config.staffColor) staffColor.value = config.staffColor
     if (config.emptyTextColor) emptyTextColor.value = config.emptyTextColor
     if (config.textColor) textColor.value = config.textColor
-    if (config.commandSystemColor) commandSystemColor.value = config.commandSystemColor
+    if (config.commandBorderColor) commandBorderColor.value = config.commandBorderColor
+    if (config.commandSeparatorColor) commandSeparatorColor.value = config.commandSeparatorColor
+    if (config.commandSelectedBgColor) commandSelectedBgColor.value = config.commandSelectedBgColor
+    if (config.commandPrefixColor) commandPrefixColor.value = config.commandPrefixColor
+    if (config.commandActiveParamColor) commandActiveParamColor.value = config.commandActiveParamColor
+    if (config.commandScrollbarColor) commandScrollbarColor.value = config.commandScrollbarColor
     if (config.chatPosition) chatPosition.value = config.chatPosition
   }
 
@@ -210,7 +225,12 @@ export const useChatStore = defineStore('chat', () => {
     staffColor,
     emptyTextColor,
     textColor,
-    commandSystemColor,
+    commandBorderColor,
+    commandSeparatorColor,
+    commandSelectedBgColor,
+    commandPrefixColor,
+    commandActiveParamColor,
+    commandScrollbarColor,
     positionClasses,
     addMessage,
     clearMessages,

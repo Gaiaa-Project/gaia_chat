@@ -68,9 +68,8 @@ const getDescription = (cmd: RegisteredCommand) => {
   <div
     class="max-h-[140px] overflow-y-auto rounded-xl bg-zinc-950/90 border-2 scrollbar-thin"
     :style="{
-      borderColor: `color-mix(in srgb, ${store.commandSystemColor} 30%, transparent)`,
-      '--cmd-color-15': `color-mix(in srgb, ${store.commandSystemColor} 15%, transparent)`,
-      '--cmd-color-30': `color-mix(in srgb, ${store.commandSystemColor} 30%, transparent)`,
+      borderColor: store.commandBorderColor,
+      '--cmd-scrollbar-color': store.commandScrollbarColor,
     }"
   >
     <div v-if="filtered.length === 0" class="flex items-center justify-center py-4">
@@ -82,26 +81,18 @@ const getDescription = (cmd: RegisteredCommand) => {
         v-if="index > 0"
         class="mx-3 h-px"
         :style="{
-          background: `linear-gradient(to right, transparent, color-mix(in srgb, ${store.commandSystemColor} 60%, transparent), transparent)`,
+          background: `linear-gradient(to right, transparent, ${store.commandSeparatorColor}, transparent)`,
         }"
       ></div>
       <div
         :data-suggestion-index="index"
         class="flex items-center justify-between pl-5 pr-5 py-2 cursor-pointer transition-colors duration-100"
         :class="index === clampedIndex ? '' : 'hover:bg-white/[0.03]'"
-        :style="
-          index === clampedIndex
-            ? { backgroundColor: `color-mix(in srgb, ${store.commandSystemColor} 10%, transparent)` }
-            : {}
-        "
+        :style="index === clampedIndex ? { backgroundColor: store.commandSelectedBgColor } : {}"
         @click="emit('select', cmd)"
       >
         <div class="flex items-center gap-2">
-          <span
-            class="text-xs font-mono"
-            :style="{ color: `color-mix(in srgb, ${store.commandSystemColor} 60%, transparent)` }"
-            >{{ prefix }}</span
-          >
+          <span class="text-xs font-mono" :style="{ color: store.commandPrefixColor }">{{ prefix }}</span>
           <span class="text-zinc-300 text-sm">{{ cmd.name }}</span>
           <template v-if="cmd.params?.length">
             <span
@@ -117,7 +108,7 @@ const getDescription = (cmd: RegisteredCommand) => {
               "
               :style="
                 matchedCommand?.name === cmd.name && activeParamIndex === pIndex
-                  ? { color: store.commandSystemColor }
+                  ? { color: store.commandActiveParamColor }
                   : {}
               "
             >
@@ -143,11 +134,7 @@ const getDescription = (cmd: RegisteredCommand) => {
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background: var(--cmd-color-15);
+  background: var(--cmd-scrollbar-color);
   border-radius: 9999px;
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background: var(--cmd-color-30);
 }
 </style>

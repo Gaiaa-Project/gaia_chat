@@ -58,17 +58,48 @@ StyleConfig = {
     --- Default: '#d4d4d8'
     textColor = '#d4d4d8',
 
-    --- Command system color
+    --- Command suggestions border color
     ---
-    --- The base color used across the entire command suggestion system:
-    --- the '/' prefix in suggestions, the suggestion container border,
-    --- the selected suggestion background, the active parameter highlight,
-    --- separators and the scrollbar.
+    --- The border color of the suggestions container.
+    --- Uses hexadecimal with optional opacity (e.g., '#10b98150').
     ---
-    --- Only hexadecimal color codes are supported (without alpha, 6 digits).
+    --- Default: '#10b98150'
+    commandBorderColor = '#10b98150',
+
+    --- Command suggestions separator color
     ---
-    --- Default: '#10b981'
-    commandSystemColor = '#10b981',
+    --- The color of the separator line between two suggestions.
+    ---
+    --- Default: '#04785799'
+    commandSeparatorColor = '#04785799',
+
+    --- Command selected suggestion background
+    ---
+    --- The background color of the currently selected suggestion.
+    ---
+    --- Default: '#10b9811a'
+    commandSelectedBgColor = '#10b9811a',
+
+    --- Command prefix color
+    ---
+    --- The color of the prefix character ('/') displayed in each suggestion row.
+    ---
+    --- Default: '#10b98199'
+    commandPrefixColor = '#10b98199',
+
+    --- Command active parameter color
+    ---
+    --- The color of the parameter currently being filled in the chat input.
+    ---
+    --- Default: '#34d399'
+    commandActiveParamColor = '#34d399',
+
+    --- Command scrollbar color
+    ---
+    --- The color of the suggestions list scrollbar thumb.
+    ---
+    --- Default: '#34d39926'
+    commandScrollbarColor = '#34d39926',
 
     --- Chat position
     ---

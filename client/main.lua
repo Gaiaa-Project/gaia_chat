@@ -22,7 +22,12 @@ local function sendConfig()
             staffColor = StyleConfig.staffColor,
             emptyTextColor = StyleConfig.emptyTextColor,
             textColor = StyleConfig.textColor,
-            commandSystemColor = StyleConfig.commandSystemColor,
+            commandBorderColor = StyleConfig.commandBorderColor,
+            commandSeparatorColor = StyleConfig.commandSeparatorColor,
+            commandSelectedBgColor = StyleConfig.commandSelectedBgColor,
+            commandPrefixColor = StyleConfig.commandPrefixColor,
+            commandActiveParamColor = StyleConfig.commandActiveParamColor,
+            commandScrollbarColor = StyleConfig.commandScrollbarColor,
             chatPosition = StyleConfig.chatPosition,
         },
     })
