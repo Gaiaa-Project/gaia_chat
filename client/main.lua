@@ -48,6 +48,14 @@ local function getLocalPlayerId()
     return GetPlayerServerId(PlayerId())
 end
 
+--- Strip FiveM native chat color codes (^0-^9) from a string.
+---@param value any The value to clean. Non-string values are returned untouched.
+---@return any cleaned The string without color codes, or the original value if not a string.
+local function stripColorCodes(value)
+    if type(value) ~= 'string' then return value end
+    return (value:gsub('%^[0-9]', ''))
+end
+
 AddEventHandler('onClientResourceStart', function(resourceName)
     if resourceName ~= GetCurrentResourceName() then return end
     sendConfig()
@@ -107,11 +115,11 @@ RegisterNetEvent('gaia_chat:client:addMessage', function(data)
         data = {
             id = generateMessageId(),
             type = data.type or 'system',
-            content = data.content,
-            author = data.author,
+            content = stripColorCodes(data.content),
+            author = stripColorCodes(data.author),
             authorColor = data.authorColor,
             icon = data.icon,
-            prefix = data.prefix,
+            prefix = stripColorCodes(data.prefix),
             prefixColor = data.prefixColor,
             timestamp = nil,
         },
@@ -143,8 +151,8 @@ RegisterNetEvent('gaia_chat:client:receiveMessage', function(data)
         data = {
             id = generateMessageId(),
             type = msgType,
-            author = msgType == 'player' and (isLocal and '__self__' or data.author) or nil,
-            content = data.content,
+            author = msgType == 'player' and (isLocal and '__self__' or stripColorCodes(data.author)) or nil,
+            content = stripColorCodes(data.content),
             timestamp = nil,
         },
     })
