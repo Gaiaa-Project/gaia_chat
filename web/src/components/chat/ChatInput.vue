@@ -23,6 +23,8 @@ watch(
     if (focused) {
       await nextTick()
       inputRef.value?.focus()
+    } else {
+      store.resetHistoryNav()
     }
   },
 )
@@ -60,6 +62,11 @@ const handleSend = () => {
 
   lastSentTime = now
   emit('send', trimmed)
+
+  if (store.historyActive) {
+    store.pushHistory(trimmed)
+  }
+
   input.value = ''
   selectedIndex.value = 0
 }
@@ -71,12 +78,14 @@ const handleSelect = (cmd: RegisteredCommand) => {
 
 const handleKeydown = (e: KeyboardEvent) => {
   if (showSuggestions.value) {
-    if (e.key === 'ArrowDown') {
+    const arrowsEnabled = store.inputMode !== 'keyboard_mouse'
+
+    if (arrowsEnabled && e.key === 'ArrowDown') {
       e.preventDefault()
       selectedIndex.value++
       return
     }
-    if (e.key === 'ArrowUp') {
+    if (arrowsEnabled && e.key === 'ArrowUp') {
       e.preventDefault()
       selectedIndex.value = Math.max(0, selectedIndex.value - 1)
       return
@@ -88,6 +97,21 @@ const handleKeydown = (e: KeyboardEvent) => {
         const idx = ((selectedIndex.value % cmds.length) + cmds.length) % cmds.length
         handleSelect(cmds[idx]!)
       }
+      return
+    }
+  }
+
+  if (store.historyActive) {
+    if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      const entry = store.navigateHistoryUp(input.value)
+      if (entry !== null) input.value = entry
+      return
+    }
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      const entry = store.navigateHistoryDown()
+      if (entry !== null) input.value = entry
       return
     }
   }

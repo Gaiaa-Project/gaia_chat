@@ -33,6 +33,51 @@ export const useChatStore = defineStore('chat', () => {
   const commandActiveParamColor = ref('#34d399')
   const commandScrollbarColor = ref('#34d39926')
   const chatPosition = ref('top-left')
+  const inputMode = ref<'keyboard' | 'keyboard_mouse'>('keyboard')
+  const historyEnable = ref(true)
+  const historyLimit = ref(20)
+  const history = ref<string[]>([])
+  const historyIndex = ref(-1)
+  const historyDraft = ref('')
+
+  const historyActive = computed(() => historyEnable.value && inputMode.value === 'keyboard_mouse')
+
+  const pushHistory = (entry: string) => {
+    const trimmed = entry.trim()
+    if (!trimmed) return
+    history.value.push(trimmed)
+    while (history.value.length > historyLimit.value) {
+      history.value.shift()
+    }
+    historyIndex.value = -1
+    historyDraft.value = ''
+  }
+
+  const navigateHistoryUp = (currentInput: string): string | null => {
+    if (history.value.length === 0) return null
+    if (historyIndex.value === -1) {
+      historyDraft.value = currentInput
+      historyIndex.value = history.value.length - 1
+    } else if (historyIndex.value > 0) {
+      historyIndex.value--
+    }
+    return history.value[historyIndex.value] ?? null
+  }
+
+  const navigateHistoryDown = (): string | null => {
+    if (historyIndex.value === -1) return null
+    if (historyIndex.value < history.value.length - 1) {
+      historyIndex.value++
+      return history.value[historyIndex.value] ?? null
+    }
+    historyIndex.value = -1
+    return historyDraft.value
+  }
+
+  const resetHistoryNav = () => {
+    historyIndex.value = -1
+    historyDraft.value = ''
+  }
 
   const positionClasses = computed(() => {
     const map: Record<string, string> = {
@@ -182,6 +227,9 @@ export const useChatStore = defineStore('chat', () => {
     commandActiveParamColor?: string
     commandScrollbarColor?: string
     chatPosition?: string
+    inputMode?: 'keyboard' | 'keyboard_mouse'
+    historyEnable?: boolean
+    historyLimit?: number
   }) => {
     commandPrefix.value = config.commandPrefix
     if (config.maxMessages) maxMessages.value = config.maxMessages
@@ -203,6 +251,14 @@ export const useChatStore = defineStore('chat', () => {
     if (config.commandActiveParamColor) commandActiveParamColor.value = config.commandActiveParamColor
     if (config.commandScrollbarColor) commandScrollbarColor.value = config.commandScrollbarColor
     if (config.chatPosition) chatPosition.value = config.chatPosition
+    if (config.inputMode) inputMode.value = config.inputMode
+    if (config.historyEnable !== undefined) historyEnable.value = config.historyEnable
+    if (config.historyLimit !== undefined && config.historyLimit > 0) {
+      historyLimit.value = config.historyLimit
+      while (history.value.length > historyLimit.value) {
+        history.value.shift()
+      }
+    }
   }
 
   return {
@@ -232,6 +288,15 @@ export const useChatStore = defineStore('chat', () => {
     commandActiveParamColor,
     commandScrollbarColor,
     positionClasses,
+    inputMode,
+    historyEnable,
+    historyLimit,
+    history,
+    historyActive,
+    pushHistory,
+    navigateHistoryUp,
+    navigateHistoryDown,
+    resetHistoryNav,
     addMessage,
     clearMessages,
     addCommand,

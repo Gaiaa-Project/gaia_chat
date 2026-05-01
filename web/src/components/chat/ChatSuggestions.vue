@@ -32,6 +32,7 @@ const clampedIndex = computed(() => {
 })
 
 watch(clampedIndex, async () => {
+  if (store.inputMode === 'keyboard_mouse') return
   await nextTick()
   const el = document.querySelector(`[data-suggestion-index="${clampedIndex.value}"]`)
   el?.scrollIntoView({ block: 'nearest' })
@@ -87,8 +88,18 @@ const getDescription = (cmd: RegisteredCommand) => {
       <div
         :data-suggestion-index="index"
         class="flex items-center justify-between pl-5 pr-5 py-2 cursor-pointer transition-colors duration-100"
-        :class="index === clampedIndex ? '' : 'hover:bg-white/[0.03]'"
-        :style="index === clampedIndex ? { backgroundColor: store.commandSelectedBgColor } : {}"
+        :class="
+          store.inputMode === 'keyboard_mouse'
+            ? 'hover:bg-white/[0.03]'
+            : index === clampedIndex
+              ? ''
+              : 'hover:bg-white/[0.03]'
+        "
+        :style="
+          store.inputMode !== 'keyboard_mouse' && index === clampedIndex
+            ? { backgroundColor: store.commandSelectedBgColor }
+            : {}
+        "
         @click="emit('select', cmd)"
       >
         <div class="flex items-center gap-2">

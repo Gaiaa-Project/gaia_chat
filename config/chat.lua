@@ -46,4 +46,20 @@ ChatConfig = {
     ---
     --- Default: true
     allowMessages = true,
+
+    --- Input mode
+    ---
+    --- Controls how the player interacts with the chat interface.
+    ---
+    --- • 'keyboard' (default): Keyboard only. The mouse cursor stays bound to
+    ---   the game. Command suggestions are navigated with the arrow keys
+    ---   (Up/Down) and confirmed with Tab/Enter.
+    ---
+    --- • 'keyboard_mouse': Keyboard + mouse. The NUI takes mouse focus while
+    ---   the chat is open, allowing the player to hover, click and scroll
+    ---   through command suggestions. Arrow-key navigation in the suggestion
+    ---   list is disabled in this mode (Tab/Enter still work).
+    ---
+    --- Default: 'keyboard'
+    inputMode = 'keyboard',
 }

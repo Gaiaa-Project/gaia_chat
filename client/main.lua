@@ -13,6 +13,9 @@ local function sendConfig()
             maxMessageLength = ChatConfig.maxMessageLength,
             messageCooldown = ChatConfig.messageCooldown,
             allowMessages = ChatConfig.allowMessages,
+            inputMode = ChatConfig.inputMode,
+            historyEnable = HistoryConfig.enable,
+            historyLimit = HistoryConfig.limit,
             passiveDuration = PassiveConfig.duration,
             passiveMode = currentPassiveMode,
             authorColor = StyleConfig.authorColor,
@@ -72,6 +75,17 @@ RegisterNetEvent('gaia_chat:client:removeCommand', function(name)
         action = 'removeCommand',
         data = { name = cmdName },
     })
+end)
+
+RegisterNetEvent('gaia_core:client:commandRegistered', function(name, description, params)
+    TriggerEvent('gaia_chat:client:addCommand', name, description)
+    if params and #params > 0 then
+        TriggerEvent('gaia_chat:client:addSuggestion', name, params)
+    end
+end)
+
+RegisterNetEvent('gaia_core:client:commandUnregistered', function(name)
+    TriggerEvent('gaia_chat:client:removeCommand', name)
 end)
 
 RegisterNetEvent('chat:addSuggestion', function(name, help, params)
@@ -148,9 +162,11 @@ RegisterCommand('+gaia_chat_open', function()
     if isChatOpen then return end
     isChatOpen = true
 
+    local mouseFocus <const> = ChatConfig.inputMode == 'keyboard_mouse'
+
     SendNUIMessage({ action = 'show', data = {} })
     SendNUIMessage({ action = 'focus', data = {} })
-    SetNuiFocus(true, false)
+    SetNuiFocus(true, mouseFocus)
 end, false)
 
 RegisterCommand('-gaia_chat_open', function() end, false)
