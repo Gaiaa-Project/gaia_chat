@@ -1,42 +1,5 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-node_modules
-.DS_Store
-dist-ssr
-coverage
-*.local
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-*.tsbuildinfo
-
-.eslintcache
-
-# Cypress
-/cypress/videos/
-/cypress/screenshots/
-
-# Vitest
-__screenshots__/
-
-# Vite
-*.timestamp-*-*.mjs
-
-test-results/
-playwright-report/
-bun.lock
+# Ne versionner que le build (web/dist) pour cette ressource.
+# Tout le source web reste en local mais hors du depot.
+/*
+!/.gitignore
+!/dist/

@@ -1,9 +1,0 @@
-{
-  "chat": {
-    "placeholder": "Écrire un message...",
-    "send": "Envoyer",
-    "noMessages": "Aucun message",
-    "noCommands": "Aucune commande disponible",
-    "you": "Vous"
-  }
-}
